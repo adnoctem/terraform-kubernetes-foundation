@@ -1,59 +1,36 @@
-# Upgrade guide
+# Upgrading
 
-Before the first release, replace this template guidance with the module's actual
-engine/provider requirements, compatibility decisions, and migration instructions.
-The starting test matrix covers Terraform 1.7.5/1.16.6 and OpenTofu 1.8.8/1.13.1.
-These are module compatibility targets; confirm that the selected providers support them.
+This is the initial foundation implementation. Publish the release wrapper v2.0.0 to the Terraform
+Registry before initializing or publishing foundation. Its dependency is deliberately pinned so a
+wrapper update is reviewed together with the generated release settings.
 
-## Before upgrading
+Chart versions are pinned and tracked by Renovate, with one shared version for Istio's coordinated
+components. Review each chart's upgrade notes and supported Kubernetes versions. Helm provider
+compatibility does not establish compatibility for every chart or cluster version.
 
-Back up the consuming root configuration's state and commit its dependency lock file.
-Update the module version and run `terraform init -upgrade` (or `tofu init -upgrade`).
-Review the plan before applying it. Child module lock files do not constrain the consuming root configuration.
+Run native tests and chart rendering after changing versions or integration values. Check both sidecar
+and ambient modes, issuer scopes, CRDs, and controller RBAC. Run live acceptance in a disposable cluster
+before production upgrades, including trust propagation and certificate renewal.
 
-Document changes to minimum engine/provider versions, input types and defaults, outputs,
-resource addresses, and map keys. Use a major release for incompatible changes.
-Provide `moved` blocks or explicit migration instructions when resource addresses change.
-Unknown object properties may be discarded by Terraform's object conversion; verify property
-names against the generated input documentation.
+CRD upgrades/removal may require explicit upstream procedures. Preserve PKI and storage backups;
+uninstalling a release is not a complete reset of Kubernetes CRDs or retained persistent volumes.
+Never disable one Terraform state's releases merely to run the next installation stage.
 
-Explain which changes can replace resources and how users should handle them.
-Preserve existing resource names and caller-supplied map keys where possible.
+Formr records provider/resource schema inventory, not arbitrary chart values or runtime correctness.
+The root delegates resources to the release module; use its report for Helm attribute coverage. The
+configuration submodule report documents the Kubernetes resources it actually uses. Not every generic
+Kubernetes manifest operation is exposed: these are focused issuer and bootstrap interfaces.
+Regenerate both reports when upgrading providers or changing the module interfaces.
 
-## Checks
+## Current Formr limitation
 
-Run `terraform init -backend=false`, `terraform validate`, and `terraform test`,
-or the equivalent `tofu` commands. Initialize and validate examples, child modules,
-and test helpers separately. CI discovers these directories from tracked Terraform files.
+Formr currently reports remote module sources as errors, even if Terraform has installed them.
+The root report therefore remains incomplete and its default policy check fails. Do not rewrite the
+report to claim full coverage or vendor the release module solely to avoid this diagnostic. Its Helm
+interface is covered by the release wrapper's own report and tests; foundation's tests exercise its
+release settings and generated integration values. Configuration-submodule inventory checks pass.
 
-Native tests belong in `tests/*.tftest.hcl`; shared setup belongs in `tests/setup/main.tf`.
-Mock cloud providers to avoid creating infrastructure. Real local providers may be used to
-check rendering and transformations without cloud credentials.
-
-Before a production release, exercise creation, a second no-change plan, updates, and teardown
-in a disposable account or project. Mocks do not verify live API behavior, quotas, or capacity.
-
-## Provider coverage maintenance
-
-With the module initialized, run `formr schema . -o docs/SCHEMA.md` to generate the
-coverage report, then `formr check . --report docs/SCHEMA.md` to check for drift.
-Use the same engine and provider selections recorded in the report's provenance.
-No `SCHEMA.md` is included in this boilerplate; generate it for each implemented module.
-
-Review provider-level settings and every resource/data-source property, including nested blocks,
-computed attributes, and outputs. Make supported configurable properties accessible through the
-module interface and document intentional omissions, fixed values, and Terraform lifecycle limitations.
-Keep provider credentials in the caller's provider configuration.
-
-The current default Formr policy checks inventory completeness and unresolved analysis.
-Strict interface coverage and exception annotations are not yet implemented, so a passing default
-check does not approve omitted fields. Review mappings and defaults alongside the generated report.
-
-Regenerate README inputs and outputs with
-`terraform-docs -c .github/linters/.terraform-docs.yml .`.
-
-## Module changes
-
-Replace this section for each release with concrete input/output changes, deprecations,
-provider behavior changes, and migration examples. Include compatibility tests for behavior
-that existing callers depend on.
+The initial root report was generated with `--schema-file` from a Formr snapshot of Helm 3.3.0 and
+Kubernetes 3.3.0 acquired with Terraform 1.16.5. That temporary snapshot is not shipped in the module.
+After the wrapper is published, normal `formr schema . -o docs/SCHEMA.md` can acquire provider schemas
+in place, but still reports incomplete inventory until remote-source traversal is supported.

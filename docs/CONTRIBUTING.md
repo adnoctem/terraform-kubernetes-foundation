@@ -15,7 +15,7 @@ Mock cloud providers; keep default tests independent of cloud credentials and li
 Assert observable behavior and compatibility guarantees instead of repeating implementation details.
 
 Keep generated provider coverage in `docs/SCHEMA.md` once the module is implemented.
-Use the Formr commands in [UPGRADING.md](UPGRADING.md) to regenerate and check the report.
+Use the Formr commands in [README.md](../README.md) to regenerate and check the report.
 
 ## Continuous integration and releases
 
@@ -31,7 +31,7 @@ Manual Release runs may omit the SHA to release the selected branch head; use a 
 
 Semantic Release uses `.releaserc` and conventional commits to publish release notes, tags,
 and the changelog. Configure repository rules to allow its authorized release writes.
-Finish replacing template placeholders and add meaningful module tests before enabling releases.
+Review the native tests and release notes before publishing a new version.
 
 ## Commit Message Format
 
