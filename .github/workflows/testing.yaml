@@ -113,14 +113,25 @@ jobs:
             else
               args+=(--repo "$repository")
             fi
+            value_files=()
             value_count=$(jq '.release.values | length' "$release_file")
             for ((index=0; index<value_count; index++)); do
               values_file="$render_dir/values-$index.yaml"
               jq -r --argjson index "$index" '.release.values[$index]' "$release_file" > "$values_file"
               args+=(-f "$values_file")
+              value_files+=("$values_file")
             done
             helm template "$name" "$chart" "${args[@]}" > "$render_dir/rendered.yaml"
             test -s "$render_dir/rendered.yaml"
+            # Every account/metadata fixture marker must survive chart rendering.
+            if ((${#value_files[@]})); then
+              while IFS= read -r marker; do
+                grep -Fq "$marker" "$render_dir/rendered.yaml" || {
+                  printf 'Chart %s ignored fixture setting %s\n' "$chart" "$marker" >&2
+                  exit 1
+                }
+              done < <(grep -hoE 'foundation-test-[a-z0-9-]+' "${value_files[@]}" | sort -u)
+            fi
             printf 'Rendered %s: %s (%s)\n' "$mode" "$name" "$version"
           done < "$render_dir/releases.txt"
 

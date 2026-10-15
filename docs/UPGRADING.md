@@ -34,3 +34,15 @@ The initial root report was generated with `--schema-file` from a Formr snapshot
 Kubernetes 3.3.0 acquired with Terraform 1.16.5. That temporary snapshot is not shipped in the module.
 After the wrapper is published, normal `formr schema . -o docs/SCHEMA.md` can acquire provider schemas
 in place, but still reports incomplete inventory until remote-source traversal is supported.
+
+## Shared defaults and value conveniences
+
+The existing operational defaults remain unchanged. Component nulls for fields in `release_defaults`
+now inherit the shared value; component false/zero values remain explicit overrides. `values_object`
+and mapped account settings are optional. Duplicate exact paths across `set*` collections now fail
+validation instead of relying on provider iteration order. See the README for value-layer precedence.
+
+The cert-manager identity used by step-issuer RBAC is derived from the controller's convenience inputs
+unless explicitly set in `pki`. Ztunnel convenience names also update ambient CSR trust. If an existing
+configuration changes identities through raw values, set the corresponding explicit integration fields
+as well. Review account replacement and IAM association changes before applying renamed identities.

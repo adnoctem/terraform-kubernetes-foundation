@@ -73,3 +73,81 @@ run "reject_two_csr_owners" {
   }
   expect_failures = [var.istio]
 }
+
+run "shared_defaults_and_explicit_false" {
+  command = apply
+  variables {
+    enable_argocd       = true
+    enable_cert_manager = true
+    release_defaults    = { timeout = 900, wait = true, atomic = true, max_history = 8, cleanup_on_fail = true }
+    argocd              = { timeout = 1200, wait = false, atomic = false, max_history = 0, cleanup_on_fail = false }
+    cert_manager        = { timeout = null }
+  }
+  assert {
+    condition     = local.effective_release_defaults.argocd.timeout == 1200 && local.effective_release_defaults.argocd.wait == false && local.effective_release_defaults.argocd.atomic == false && local.effective_release_defaults.argocd.max_history == 0 && local.effective_release_defaults.argocd.cleanup_on_fail == false && local.effective_release_defaults.cert_manager.timeout == 900
+    error_message = "Component settings must override shared defaults, including false and zero; null must inherit."
+  }
+}
+run "identity_relationships" {
+  command = apply
+  variables {
+    enable_cert_manager = true
+    enable_step_issuer  = true
+    enable_istio        = true
+    enable_istio_csr    = true
+    istio               = { mode = "ambient" }
+    pki                 = { issuer_name = "mesh", root_ca_config_map = "root" }
+    cert_manager        = { namespace = "security", service_accounts = { controller = { name = "certificates" } } }
+    ztunnel             = { service_accounts = { default = { name = "node-proxy" } } }
+  }
+  assert {
+    condition     = yamldecode(local.integration_values.step_issuer[0]).certManager.serviceAccount.name == "certificates" && yamldecode(local.integration_values.step_issuer[0]).certManager.serviceAccount.namespace == "security" && yamldecode(local.integration_values.istio_csr[0]).app.server.caTrustedNodeAccounts == "istio-system/node-proxy"
+    error_message = "Derived RBAC and ambient trust must follow configured service-account identities."
+  }
+}
+run "custom_mapping" {
+  command = plan
+  variables {
+    enable_argocd = true
+    argocd        = { service_account_paths = { server = { annotations = ["custom", "annotations"] } } }
+  }
+  assert {
+    condition     = local.service_account_paths.argocd.server.annotations == tolist(["custom", "annotations"]) && tolist(local.service_account_paths.argocd.server.name) == tolist(["server", "serviceAccount", "name"])
+    error_message = "An explicit field mapping must override that field while preserving the role's other mappings."
+  }
+}
+run "reject_invalid_shared_defaults" {
+  command = plan
+  variables { release_defaults = { timeout = 0 } }
+  expect_failures = [var.release_defaults]
+}
+run "reject_step_issuer_existing_account" {
+  command = plan
+  variables { step_issuer = { service_accounts = { default = { name = "external", create = false } } } }
+  expect_failures = [var.step_issuer]
+}
+
+run "derived_chart_account_name" {
+  command = plan
+  variables {
+    enable_cert_manager = true
+    enable_step_issuer  = true
+    cert_manager        = { name = "certificates" }
+  }
+  assert {
+    condition     = local.cert_manager_account == "certificates-cert-manager"
+    error_message = "A renamed release must follow the chart's fullname helper when deriving the approval account."
+  }
+}
+run "existing_default_account" {
+  command = plan
+  variables {
+    enable_cert_manager = true
+    enable_step_issuer  = true
+    cert_manager        = { service_accounts = { controller = { create = false } } }
+  }
+  assert {
+    condition     = local.cert_manager_account == "default"
+    error_message = "With creation disabled and no name, the chart consumes the namespace's default account."
+  }
+}

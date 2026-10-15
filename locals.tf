@@ -18,7 +18,7 @@ locals {
     })]
     step_issuer = [yamlencode({
       serviceAccount = { create = true }
-      certManager    = { serviceAccount = { name = var.pki.cert_manager_service_account, namespace = var.pki.cert_manager_namespace } }
+      certManager    = { serviceAccount = { name = local.cert_manager_account, namespace = local.cert_manager_namespace } }
     })]
     istio_base = [yamlencode({ defaultRevision = var.istio.revision })]
     istiod = concat([yamlencode({
@@ -33,7 +33,7 @@ locals {
     istio_cni = [yamlencode({ profile = var.istio.mode == "ambient" ? "ambient" : "" })]
     ztunnel = [yamlencode(merge({
       env            = { TRUST_DOMAIN = var.istio.trust_domain }
-      resourceName   = var.istio.ztunnel_service_account
+      resourceName   = local.ztunnel_account
       istioNamespace = local.istiod_namespace
       revision       = var.istio.revision == "default" ? "" : var.istio.revision
     }, local.csr_address == null ? {} : { caAddress = local.csr_address }))]
@@ -51,7 +51,7 @@ locals {
         }
         istio      = { namespace = local.istiod_namespace, revisions = [var.istio.revision] }
         controller = { leaderElectionNamespace = local.istiod_namespace }
-        server     = { caTrustedNodeAccounts = var.istio.mode == "ambient" ? "${local.ztunnel_namespace}/${var.istio.ztunnel_service_account}" : "" }
+        server     = { caTrustedNodeAccounts = var.istio.mode == "ambient" ? "${local.ztunnel_namespace}/${local.ztunnel_account}" : "" }
       }
       volumes      = [{ name = "trusted-root", configMap = { name = var.pki.root_ca_config_map, items = [{ key = var.pki.root_ca_key, path = "ca.pem" }] } }]
       volumeMounts = [{ name = "trusted-root", mountPath = "/var/run/istio-csr-root", readOnly = true }]

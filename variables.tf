@@ -56,10 +56,10 @@ variable "enable_argocd" {
 
 variable "cilium" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "cilium")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -69,7 +69,7 @@ variable "cilium" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "cilium")
     namespace                  = optional(string, "kube-system")
     pass_credentials           = optional(bool)
@@ -105,7 +105,7 @@ variable "cilium" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -114,10 +114,19 @@ variable "cilium" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io
     chart_version = optional(string, "1.20.2")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
@@ -127,10 +136,10 @@ variable "cilium" {
 
 variable "cert_manager" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "cert-manager")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -140,7 +149,7 @@ variable "cert_manager" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "cert-manager")
     namespace                  = optional(string, "cert-manager")
     pass_credentials           = optional(bool)
@@ -176,7 +185,7 @@ variable "cert_manager" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -185,10 +194,19 @@ variable "cert_manager" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=docker depName=quay.io/jetstack/charts/cert-manager
     chart_version = optional(string, "v1.21.2")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
@@ -198,10 +216,10 @@ variable "cert_manager" {
 
 variable "step_certificates" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "step-certificates")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -211,7 +229,7 @@ variable "step_certificates" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "step-certificates")
     namespace                  = optional(string, "step-ca")
     pass_credentials           = optional(bool)
@@ -247,7 +265,7 @@ variable "step_certificates" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -256,10 +274,19 @@ variable "step_certificates" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=helm depName=step-certificates registryUrl=https://smallstep.github.io/helm-charts
     chart_version = optional(string, "1.30.1")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
@@ -269,10 +296,10 @@ variable "step_certificates" {
 
 variable "step_issuer" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "step-issuer")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -282,7 +309,7 @@ variable "step_issuer" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "step-issuer")
     namespace                  = optional(string, "step-issuer")
     pass_credentials           = optional(bool)
@@ -318,7 +345,7 @@ variable "step_issuer" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -327,23 +354,37 @@ variable "step_issuer" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=helm depName=step-issuer registryUrl=https://smallstep.github.io/helm-charts
     chart_version = optional(string, "1.11.0")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
   nullable    = false
   description = "step issuer Helm release overrides. Caller YAML follows integration defaults; optional null fields use provider defaults."
+  validation {
+    condition     = try(var.step_issuer.service_accounts.default.create != false || var.step_issuer.service_accounts.default.name == null, true)
+    error_message = "The pinned step-issuer chart only binds a named service account when create=true. It does not support selecting an existing named account with create=false."
+  }
+
 }
 
 variable "istio_base" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "base")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -353,7 +394,7 @@ variable "istio_base" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "istio-base")
     namespace                  = optional(string)
     pass_credentials           = optional(bool)
@@ -389,7 +430,7 @@ variable "istio_base" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -398,10 +439,19 @@ variable "istio_base" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
-    chart_version   = optional(string)
-    wait            = optional(bool, true)
-    wait_for_jobs   = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
+    chart_version         = optional(string)
+    wait                  = optional(bool)
+    wait_for_jobs         = optional(bool)
   })
   default     = {}
   nullable    = false
@@ -410,10 +460,10 @@ variable "istio_base" {
 
 variable "istiod" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "istiod")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -423,7 +473,7 @@ variable "istiod" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "istiod")
     namespace                  = optional(string)
     pass_credentials           = optional(bool)
@@ -459,7 +509,7 @@ variable "istiod" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -468,10 +518,19 @@ variable "istiod" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
-    chart_version   = optional(string)
-    wait            = optional(bool, true)
-    wait_for_jobs   = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
+    chart_version         = optional(string)
+    wait                  = optional(bool)
+    wait_for_jobs         = optional(bool)
   })
   default     = {}
   nullable    = false
@@ -480,10 +539,10 @@ variable "istiod" {
 
 variable "istio_cni" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "cni")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -493,7 +552,7 @@ variable "istio_cni" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "istio-cni")
     namespace                  = optional(string)
     pass_credentials           = optional(bool)
@@ -529,7 +588,7 @@ variable "istio_cni" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -538,10 +597,19 @@ variable "istio_cni" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
-    chart_version   = optional(string)
-    wait            = optional(bool, true)
-    wait_for_jobs   = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
+    chart_version         = optional(string)
+    wait                  = optional(bool)
+    wait_for_jobs         = optional(bool)
   })
   default     = {}
   nullable    = false
@@ -550,10 +618,10 @@ variable "istio_cni" {
 
 variable "ztunnel" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "ztunnel")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -563,7 +631,7 @@ variable "ztunnel" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "ztunnel")
     namespace                  = optional(string)
     pass_credentials           = optional(bool)
@@ -599,7 +667,7 @@ variable "ztunnel" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -608,10 +676,19 @@ variable "ztunnel" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
-    chart_version   = optional(string)
-    wait            = optional(bool, true)
-    wait_for_jobs   = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
+    chart_version         = optional(string)
+    wait                  = optional(bool)
+    wait_for_jobs         = optional(bool)
   })
   default     = {}
   nullable    = false
@@ -620,10 +697,10 @@ variable "ztunnel" {
 
 variable "istio_csr" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "cert-manager-istio-csr")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -633,7 +710,7 @@ variable "istio_csr" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "cert-manager-istio-csr")
     namespace                  = optional(string, "cert-manager")
     pass_credentials           = optional(bool)
@@ -669,7 +746,7 @@ variable "istio_csr" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -678,10 +755,19 @@ variable "istio_csr" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=docker depName=quay.io/jetstack/charts/cert-manager-istio-csr
     chart_version = optional(string, "v0.18.0")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
@@ -691,10 +777,10 @@ variable "istio_csr" {
 
 variable "argocd" {
   type = object({
-    atomic                     = optional(bool, false)
+    atomic                     = optional(bool)
     chart                      = optional(string, "argo-cd")
     cleanup_on_fail            = optional(bool)
-    create_namespace           = optional(bool, true)
+    create_namespace           = optional(bool)
     dependency_update          = optional(bool)
     description                = optional(string)
     devel                      = optional(bool)
@@ -704,7 +790,7 @@ variable "argocd" {
     force_update               = optional(bool)
     keyring                    = optional(string)
     lint                       = optional(bool)
-    max_history                = optional(number, 10)
+    max_history                = optional(number)
     name                       = optional(string, "argocd")
     namespace                  = optional(string, "argocd")
     pass_credentials           = optional(bool)
@@ -740,7 +826,7 @@ variable "argocd" {
     set_wo_revision = optional(number)
     skip_crds       = optional(bool)
     take_ownership  = optional(bool)
-    timeout         = optional(number, 600)
+    timeout         = optional(number)
     timeouts = optional(object({
       create = optional(string)
       delete = optional(string)
@@ -749,10 +835,19 @@ variable "argocd" {
     }))
     upgrade_install = optional(bool)
     values          = optional(list(string), [])
-    verify          = optional(bool)
+    values_object   = optional(any)
+    service_accounts = optional(map(object({
+      name        = optional(string)
+      create      = optional(bool)
+      annotations = optional(map(string), {})
+      labels      = optional(map(string), {})
+      pod_labels  = optional(map(string), {})
+    })), {})
+    service_account_paths = optional(map(map(list(string))), {})
+    verify                = optional(bool)
     # renovate: datasource=helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
     chart_version = optional(string, "10.10.3")
-    wait          = optional(bool, true)
+    wait          = optional(bool)
     wait_for_jobs = optional(bool)
   })
   default     = {}
@@ -804,8 +899,8 @@ variable "pki" {
     issuer_group                 = optional(string, "certmanager.step.sm")
     root_ca_config_map           = optional(string)
     root_ca_key                  = optional(string, "ca.pem")
-    cert_manager_service_account = optional(string, "cert-manager")
-    cert_manager_namespace       = optional(string, "cert-manager")
+    cert_manager_service_account = optional(string)
+    cert_manager_namespace       = optional(string)
   })
   default     = {}
   nullable    = false
@@ -829,4 +924,24 @@ variable "step_issuer_auto_approval" {
   default     = false
   nullable    = false
   description = "Allow cert-manager auto-approval for Smallstep signers managed externally. Also enabled when managing step-issuer here. Override cert_manager.values to use a separate approval policy."
+}
+
+variable "release_defaults" {
+  type = object({
+    atomic           = optional(bool, false)
+    create_namespace = optional(bool, true)
+    wait             = optional(bool, true)
+    timeout          = optional(number, 600)
+    max_history      = optional(number, 10)
+    cleanup_on_fail  = optional(bool)
+    wait_for_jobs    = optional(bool)
+    lint             = optional(bool)
+  })
+  default     = {}
+  nullable    = false
+  description = "Shared operational release settings. Non-null per-component settings override these; null inherits. False and zero remain explicit overrides."
+  validation {
+    condition     = var.release_defaults.timeout > 0 && floor(var.release_defaults.timeout) == var.release_defaults.timeout && var.release_defaults.max_history >= 0 && floor(var.release_defaults.max_history) == var.release_defaults.max_history
+    error_message = "Shared timeout must be a positive whole number and max_history a nonnegative whole number."
+  }
 }

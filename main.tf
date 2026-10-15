@@ -3,10 +3,10 @@ module "cilium" {
   version = "2.0.0"
   count   = var.enable_cilium ? 1 : 0
 
-  atomic                     = var.cilium.atomic
+  atomic                     = local.effective_release_defaults.cilium.atomic
   chart                      = var.cilium.chart
-  cleanup_on_fail            = var.cilium.cleanup_on_fail
-  create_namespace           = var.cilium.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.cilium.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.cilium.create_namespace
   dependency_update          = var.cilium.dependency_update
   description                = var.cilium.description
   devel                      = var.cilium.devel
@@ -15,8 +15,8 @@ module "cilium" {
   disable_webhooks           = var.cilium.disable_webhooks
   force_update               = var.cilium.force_update
   keyring                    = var.cilium.keyring
-  lint                       = var.cilium.lint
-  max_history                = var.cilium.max_history
+  lint                       = local.effective_release_defaults.cilium.lint
+  max_history                = local.effective_release_defaults.cilium.max_history
   name                       = var.cilium.name
   namespace                  = var.cilium.namespace
   pass_credentials           = var.cilium.pass_credentials
@@ -39,14 +39,18 @@ module "cilium" {
   set_wo_revision            = var.cilium.set_wo_revision
   skip_crds                  = var.cilium.skip_crds
   take_ownership             = var.cilium.take_ownership
-  timeout                    = var.cilium.timeout
+  timeout                    = local.effective_release_defaults.cilium.timeout
   timeouts                   = var.cilium.timeouts
   upgrade_install            = var.cilium.upgrade_install
-  values                     = concat(local.integration_values.cilium, var.cilium.values)
+  default_values             = local.integration_values.cilium
+  values_object              = var.cilium.values_object
+  values                     = var.cilium.values
+  service_accounts           = var.cilium.service_accounts
+  service_account_paths      = local.service_account_paths.cilium
   verify                     = var.cilium.verify
   chart_version              = var.cilium.chart_version
-  wait                       = var.cilium.wait
-  wait_for_jobs              = var.cilium.wait_for_jobs
+  wait                       = local.effective_release_defaults.cilium.wait
+  wait_for_jobs              = local.effective_release_defaults.cilium.wait_for_jobs
 }
 
 module "cert_manager" {
@@ -54,10 +58,10 @@ module "cert_manager" {
   version = "2.0.0"
   count   = var.enable_cert_manager ? 1 : 0
 
-  atomic                     = var.cert_manager.atomic
+  atomic                     = local.effective_release_defaults.cert_manager.atomic
   chart                      = var.cert_manager.chart
-  cleanup_on_fail            = var.cert_manager.cleanup_on_fail
-  create_namespace           = var.cert_manager.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.cert_manager.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.cert_manager.create_namespace
   dependency_update          = var.cert_manager.dependency_update
   description                = var.cert_manager.description
   devel                      = var.cert_manager.devel
@@ -66,8 +70,8 @@ module "cert_manager" {
   disable_webhooks           = var.cert_manager.disable_webhooks
   force_update               = var.cert_manager.force_update
   keyring                    = var.cert_manager.keyring
-  lint                       = var.cert_manager.lint
-  max_history                = var.cert_manager.max_history
+  lint                       = local.effective_release_defaults.cert_manager.lint
+  max_history                = local.effective_release_defaults.cert_manager.max_history
   name                       = var.cert_manager.name
   namespace                  = var.cert_manager.namespace
   pass_credentials           = var.cert_manager.pass_credentials
@@ -90,14 +94,18 @@ module "cert_manager" {
   set_wo_revision            = var.cert_manager.set_wo_revision
   skip_crds                  = var.cert_manager.skip_crds
   take_ownership             = var.cert_manager.take_ownership
-  timeout                    = var.cert_manager.timeout
+  timeout                    = local.effective_release_defaults.cert_manager.timeout
   timeouts                   = var.cert_manager.timeouts
   upgrade_install            = var.cert_manager.upgrade_install
-  values                     = concat(local.integration_values.cert_manager, var.cert_manager.values)
+  default_values             = local.integration_values.cert_manager
+  values_object              = var.cert_manager.values_object
+  values                     = var.cert_manager.values
+  service_accounts           = var.cert_manager.service_accounts
+  service_account_paths      = local.service_account_paths.cert_manager
   verify                     = var.cert_manager.verify
   chart_version              = var.cert_manager.chart_version
-  wait                       = var.cert_manager.wait
-  wait_for_jobs              = var.cert_manager.wait_for_jobs
+  wait                       = local.effective_release_defaults.cert_manager.wait
+  wait_for_jobs              = local.effective_release_defaults.cert_manager.wait_for_jobs
   depends_on                 = [module.cilium]
 }
 
@@ -106,10 +114,10 @@ module "step_certificates" {
   version = "2.0.0"
   count   = var.enable_step_certificates ? 1 : 0
 
-  atomic                     = var.step_certificates.atomic
+  atomic                     = local.effective_release_defaults.step_certificates.atomic
   chart                      = var.step_certificates.chart
-  cleanup_on_fail            = var.step_certificates.cleanup_on_fail
-  create_namespace           = var.step_certificates.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.step_certificates.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.step_certificates.create_namespace
   dependency_update          = var.step_certificates.dependency_update
   description                = var.step_certificates.description
   devel                      = var.step_certificates.devel
@@ -118,8 +126,8 @@ module "step_certificates" {
   disable_webhooks           = var.step_certificates.disable_webhooks
   force_update               = var.step_certificates.force_update
   keyring                    = var.step_certificates.keyring
-  lint                       = var.step_certificates.lint
-  max_history                = var.step_certificates.max_history
+  lint                       = local.effective_release_defaults.step_certificates.lint
+  max_history                = local.effective_release_defaults.step_certificates.max_history
   name                       = var.step_certificates.name
   namespace                  = var.step_certificates.namespace
   pass_credentials           = var.step_certificates.pass_credentials
@@ -142,14 +150,18 @@ module "step_certificates" {
   set_wo_revision            = var.step_certificates.set_wo_revision
   skip_crds                  = var.step_certificates.skip_crds
   take_ownership             = var.step_certificates.take_ownership
-  timeout                    = var.step_certificates.timeout
+  timeout                    = local.effective_release_defaults.step_certificates.timeout
   timeouts                   = var.step_certificates.timeouts
   upgrade_install            = var.step_certificates.upgrade_install
-  values                     = concat(local.integration_values.step_certificates, var.step_certificates.values)
+  default_values             = local.integration_values.step_certificates
+  values_object              = var.step_certificates.values_object
+  values                     = var.step_certificates.values
+  service_accounts           = var.step_certificates.service_accounts
+  service_account_paths      = local.service_account_paths.step_certificates
   verify                     = var.step_certificates.verify
   chart_version              = var.step_certificates.chart_version
-  wait                       = var.step_certificates.wait
-  wait_for_jobs              = var.step_certificates.wait_for_jobs
+  wait                       = local.effective_release_defaults.step_certificates.wait
+  wait_for_jobs              = local.effective_release_defaults.step_certificates.wait_for_jobs
   depends_on                 = [module.cilium]
 }
 
@@ -158,10 +170,10 @@ module "step_issuer" {
   version = "2.0.0"
   count   = var.enable_step_issuer ? 1 : 0
 
-  atomic                     = var.step_issuer.atomic
+  atomic                     = local.effective_release_defaults.step_issuer.atomic
   chart                      = var.step_issuer.chart
-  cleanup_on_fail            = var.step_issuer.cleanup_on_fail
-  create_namespace           = var.step_issuer.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.step_issuer.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.step_issuer.create_namespace
   dependency_update          = var.step_issuer.dependency_update
   description                = var.step_issuer.description
   devel                      = var.step_issuer.devel
@@ -170,8 +182,8 @@ module "step_issuer" {
   disable_webhooks           = var.step_issuer.disable_webhooks
   force_update               = var.step_issuer.force_update
   keyring                    = var.step_issuer.keyring
-  lint                       = var.step_issuer.lint
-  max_history                = var.step_issuer.max_history
+  lint                       = local.effective_release_defaults.step_issuer.lint
+  max_history                = local.effective_release_defaults.step_issuer.max_history
   name                       = var.step_issuer.name
   namespace                  = var.step_issuer.namespace
   pass_credentials           = var.step_issuer.pass_credentials
@@ -194,14 +206,18 @@ module "step_issuer" {
   set_wo_revision            = var.step_issuer.set_wo_revision
   skip_crds                  = var.step_issuer.skip_crds
   take_ownership             = var.step_issuer.take_ownership
-  timeout                    = var.step_issuer.timeout
+  timeout                    = local.effective_release_defaults.step_issuer.timeout
   timeouts                   = var.step_issuer.timeouts
   upgrade_install            = var.step_issuer.upgrade_install
-  values                     = concat(local.integration_values.step_issuer, var.step_issuer.values)
+  default_values             = local.integration_values.step_issuer
+  values_object              = var.step_issuer.values_object
+  values                     = var.step_issuer.values
+  service_accounts           = var.step_issuer.service_accounts
+  service_account_paths      = local.service_account_paths.step_issuer
   verify                     = var.step_issuer.verify
   chart_version              = var.step_issuer.chart_version
-  wait                       = var.step_issuer.wait
-  wait_for_jobs              = var.step_issuer.wait_for_jobs
+  wait                       = local.effective_release_defaults.step_issuer.wait
+  wait_for_jobs              = local.effective_release_defaults.step_issuer.wait_for_jobs
   depends_on                 = [module.cert_manager]
 }
 
@@ -210,10 +226,10 @@ module "istio_base" {
   version = "2.0.0"
   count   = local.manage_istio_base ? 1 : 0
 
-  atomic                     = var.istio_base.atomic
+  atomic                     = local.effective_release_defaults.istio_base.atomic
   chart                      = var.istio_base.chart
-  cleanup_on_fail            = var.istio_base.cleanup_on_fail
-  create_namespace           = var.istio_base.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.istio_base.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.istio_base.create_namespace
   dependency_update          = var.istio_base.dependency_update
   description                = var.istio_base.description
   devel                      = var.istio_base.devel
@@ -222,8 +238,8 @@ module "istio_base" {
   disable_webhooks           = var.istio_base.disable_webhooks
   force_update               = var.istio_base.force_update
   keyring                    = var.istio_base.keyring
-  lint                       = var.istio_base.lint
-  max_history                = var.istio_base.max_history
+  lint                       = local.effective_release_defaults.istio_base.lint
+  max_history                = local.effective_release_defaults.istio_base.max_history
   name                       = var.istio_base.name
   namespace                  = coalesce(var.istio_base.namespace, var.istio.namespace)
   pass_credentials           = var.istio_base.pass_credentials
@@ -246,14 +262,18 @@ module "istio_base" {
   set_wo_revision            = var.istio_base.set_wo_revision
   skip_crds                  = var.istio_base.skip_crds
   take_ownership             = var.istio_base.take_ownership
-  timeout                    = var.istio_base.timeout
+  timeout                    = local.effective_release_defaults.istio_base.timeout
   timeouts                   = var.istio_base.timeouts
   upgrade_install            = var.istio_base.upgrade_install
-  values                     = concat(local.integration_values.istio_base, var.istio_base.values)
+  default_values             = local.integration_values.istio_base
+  values_object              = var.istio_base.values_object
+  values                     = var.istio_base.values
+  service_accounts           = var.istio_base.service_accounts
+  service_account_paths      = local.service_account_paths.istio_base
   verify                     = var.istio_base.verify
   chart_version              = coalesce(var.istio_base.chart_version, var.istio.chart_version)
-  wait                       = var.istio_base.wait
-  wait_for_jobs              = var.istio_base.wait_for_jobs
+  wait                       = local.effective_release_defaults.istio_base.wait
+  wait_for_jobs              = local.effective_release_defaults.istio_base.wait_for_jobs
   depends_on                 = [module.cilium]
 }
 
@@ -262,10 +282,10 @@ module "istio_csr" {
   version = "2.0.0"
   count   = var.enable_istio_csr ? 1 : 0
 
-  atomic                     = var.istio_csr.atomic
+  atomic                     = local.effective_release_defaults.istio_csr.atomic
   chart                      = var.istio_csr.chart
-  cleanup_on_fail            = var.istio_csr.cleanup_on_fail
-  create_namespace           = var.istio_csr.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.istio_csr.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.istio_csr.create_namespace
   dependency_update          = var.istio_csr.dependency_update
   description                = var.istio_csr.description
   devel                      = var.istio_csr.devel
@@ -274,8 +294,8 @@ module "istio_csr" {
   disable_webhooks           = var.istio_csr.disable_webhooks
   force_update               = var.istio_csr.force_update
   keyring                    = var.istio_csr.keyring
-  lint                       = var.istio_csr.lint
-  max_history                = var.istio_csr.max_history
+  lint                       = local.effective_release_defaults.istio_csr.lint
+  max_history                = local.effective_release_defaults.istio_csr.max_history
   name                       = var.istio_csr.name
   namespace                  = var.istio_csr.namespace
   pass_credentials           = var.istio_csr.pass_credentials
@@ -298,14 +318,18 @@ module "istio_csr" {
   set_wo_revision            = var.istio_csr.set_wo_revision
   skip_crds                  = var.istio_csr.skip_crds
   take_ownership             = var.istio_csr.take_ownership
-  timeout                    = var.istio_csr.timeout
+  timeout                    = local.effective_release_defaults.istio_csr.timeout
   timeouts                   = var.istio_csr.timeouts
   upgrade_install            = var.istio_csr.upgrade_install
-  values                     = concat(local.integration_values.istio_csr, var.istio_csr.values)
+  default_values             = local.integration_values.istio_csr
+  values_object              = var.istio_csr.values_object
+  values                     = var.istio_csr.values
+  service_accounts           = var.istio_csr.service_accounts
+  service_account_paths      = local.service_account_paths.istio_csr
   verify                     = var.istio_csr.verify
   chart_version              = var.istio_csr.chart_version
-  wait                       = var.istio_csr.wait
-  wait_for_jobs              = var.istio_csr.wait_for_jobs
+  wait                       = local.effective_release_defaults.istio_csr.wait
+  wait_for_jobs              = local.effective_release_defaults.istio_csr.wait_for_jobs
   depends_on                 = [module.cert_manager, module.step_issuer, module.step_certificates, module.istio_base]
 }
 
@@ -314,10 +338,10 @@ module "istio_cni_sidecar" {
   version = "2.0.0"
   count   = var.enable_istio && var.istio.cni_enabled && var.istio.mode == "sidecar" ? 1 : 0
 
-  atomic                     = var.istio_cni.atomic
+  atomic                     = local.effective_release_defaults.istio_cni.atomic
   chart                      = var.istio_cni.chart
-  cleanup_on_fail            = var.istio_cni.cleanup_on_fail
-  create_namespace           = var.istio_cni.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.istio_cni.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.istio_cni.create_namespace
   dependency_update          = var.istio_cni.dependency_update
   description                = var.istio_cni.description
   devel                      = var.istio_cni.devel
@@ -326,8 +350,8 @@ module "istio_cni_sidecar" {
   disable_webhooks           = var.istio_cni.disable_webhooks
   force_update               = var.istio_cni.force_update
   keyring                    = var.istio_cni.keyring
-  lint                       = var.istio_cni.lint
-  max_history                = var.istio_cni.max_history
+  lint                       = local.effective_release_defaults.istio_cni.lint
+  max_history                = local.effective_release_defaults.istio_cni.max_history
   name                       = var.istio_cni.name
   namespace                  = coalesce(var.istio_cni.namespace, var.istio.namespace)
   pass_credentials           = var.istio_cni.pass_credentials
@@ -350,14 +374,18 @@ module "istio_cni_sidecar" {
   set_wo_revision            = var.istio_cni.set_wo_revision
   skip_crds                  = var.istio_cni.skip_crds
   take_ownership             = var.istio_cni.take_ownership
-  timeout                    = var.istio_cni.timeout
+  timeout                    = local.effective_release_defaults.istio_cni.timeout
   timeouts                   = var.istio_cni.timeouts
   upgrade_install            = var.istio_cni.upgrade_install
-  values                     = concat(local.integration_values.istio_cni, var.istio_cni.values)
+  default_values             = local.integration_values.istio_cni
+  values_object              = var.istio_cni.values_object
+  values                     = var.istio_cni.values
+  service_accounts           = var.istio_cni.service_accounts
+  service_account_paths      = local.service_account_paths.istio_cni
   verify                     = var.istio_cni.verify
   chart_version              = coalesce(var.istio_cni.chart_version, var.istio.chart_version)
-  wait                       = var.istio_cni.wait
-  wait_for_jobs              = var.istio_cni.wait_for_jobs
+  wait                       = local.effective_release_defaults.istio_cni.wait
+  wait_for_jobs              = local.effective_release_defaults.istio_cni.wait_for_jobs
   depends_on                 = [module.istio_base]
 }
 
@@ -366,10 +394,10 @@ module "istiod" {
   version = "2.0.0"
   count   = var.enable_istio ? 1 : 0
 
-  atomic                     = var.istiod.atomic
+  atomic                     = local.effective_release_defaults.istiod.atomic
   chart                      = var.istiod.chart
-  cleanup_on_fail            = var.istiod.cleanup_on_fail
-  create_namespace           = var.istiod.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.istiod.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.istiod.create_namespace
   dependency_update          = var.istiod.dependency_update
   description                = var.istiod.description
   devel                      = var.istiod.devel
@@ -378,8 +406,8 @@ module "istiod" {
   disable_webhooks           = var.istiod.disable_webhooks
   force_update               = var.istiod.force_update
   keyring                    = var.istiod.keyring
-  lint                       = var.istiod.lint
-  max_history                = var.istiod.max_history
+  lint                       = local.effective_release_defaults.istiod.lint
+  max_history                = local.effective_release_defaults.istiod.max_history
   name                       = var.istiod.name
   namespace                  = coalesce(var.istiod.namespace, var.istio.namespace)
   pass_credentials           = var.istiod.pass_credentials
@@ -402,14 +430,18 @@ module "istiod" {
   set_wo_revision            = var.istiod.set_wo_revision
   skip_crds                  = var.istiod.skip_crds
   take_ownership             = var.istiod.take_ownership
-  timeout                    = var.istiod.timeout
+  timeout                    = local.effective_release_defaults.istiod.timeout
   timeouts                   = var.istiod.timeouts
   upgrade_install            = var.istiod.upgrade_install
-  values                     = concat(local.integration_values.istiod, var.istiod.values)
+  default_values             = local.integration_values.istiod
+  values_object              = var.istiod.values_object
+  values                     = var.istiod.values
+  service_accounts           = var.istiod.service_accounts
+  service_account_paths      = local.service_account_paths.istiod
   verify                     = var.istiod.verify
   chart_version              = coalesce(var.istiod.chart_version, var.istio.chart_version)
-  wait                       = var.istiod.wait
-  wait_for_jobs              = var.istiod.wait_for_jobs
+  wait                       = local.effective_release_defaults.istiod.wait
+  wait_for_jobs              = local.effective_release_defaults.istiod.wait_for_jobs
   depends_on                 = [module.istio_base, module.istio_cni_sidecar, module.istio_csr]
 }
 
@@ -418,10 +450,10 @@ module "istio_cni_ambient" {
   version = "2.0.0"
   count   = var.enable_istio && var.istio.cni_enabled && var.istio.mode == "ambient" ? 1 : 0
 
-  atomic                     = var.istio_cni.atomic
+  atomic                     = local.effective_release_defaults.istio_cni.atomic
   chart                      = var.istio_cni.chart
-  cleanup_on_fail            = var.istio_cni.cleanup_on_fail
-  create_namespace           = var.istio_cni.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.istio_cni.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.istio_cni.create_namespace
   dependency_update          = var.istio_cni.dependency_update
   description                = var.istio_cni.description
   devel                      = var.istio_cni.devel
@@ -430,8 +462,8 @@ module "istio_cni_ambient" {
   disable_webhooks           = var.istio_cni.disable_webhooks
   force_update               = var.istio_cni.force_update
   keyring                    = var.istio_cni.keyring
-  lint                       = var.istio_cni.lint
-  max_history                = var.istio_cni.max_history
+  lint                       = local.effective_release_defaults.istio_cni.lint
+  max_history                = local.effective_release_defaults.istio_cni.max_history
   name                       = var.istio_cni.name
   namespace                  = coalesce(var.istio_cni.namespace, var.istio.namespace)
   pass_credentials           = var.istio_cni.pass_credentials
@@ -454,14 +486,18 @@ module "istio_cni_ambient" {
   set_wo_revision            = var.istio_cni.set_wo_revision
   skip_crds                  = var.istio_cni.skip_crds
   take_ownership             = var.istio_cni.take_ownership
-  timeout                    = var.istio_cni.timeout
+  timeout                    = local.effective_release_defaults.istio_cni.timeout
   timeouts                   = var.istio_cni.timeouts
   upgrade_install            = var.istio_cni.upgrade_install
-  values                     = concat(local.integration_values.istio_cni, var.istio_cni.values)
+  default_values             = local.integration_values.istio_cni
+  values_object              = var.istio_cni.values_object
+  values                     = var.istio_cni.values
+  service_accounts           = var.istio_cni.service_accounts
+  service_account_paths      = local.service_account_paths.istio_cni
   verify                     = var.istio_cni.verify
   chart_version              = coalesce(var.istio_cni.chart_version, var.istio.chart_version)
-  wait                       = var.istio_cni.wait
-  wait_for_jobs              = var.istio_cni.wait_for_jobs
+  wait                       = local.effective_release_defaults.istio_cni.wait
+  wait_for_jobs              = local.effective_release_defaults.istio_cni.wait_for_jobs
   depends_on                 = [module.istiod]
 }
 
@@ -470,10 +506,10 @@ module "ztunnel" {
   version = "2.0.0"
   count   = var.enable_istio && var.istio.mode == "ambient" ? 1 : 0
 
-  atomic                     = var.ztunnel.atomic
+  atomic                     = local.effective_release_defaults.ztunnel.atomic
   chart                      = var.ztunnel.chart
-  cleanup_on_fail            = var.ztunnel.cleanup_on_fail
-  create_namespace           = var.ztunnel.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.ztunnel.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.ztunnel.create_namespace
   dependency_update          = var.ztunnel.dependency_update
   description                = var.ztunnel.description
   devel                      = var.ztunnel.devel
@@ -482,8 +518,8 @@ module "ztunnel" {
   disable_webhooks           = var.ztunnel.disable_webhooks
   force_update               = var.ztunnel.force_update
   keyring                    = var.ztunnel.keyring
-  lint                       = var.ztunnel.lint
-  max_history                = var.ztunnel.max_history
+  lint                       = local.effective_release_defaults.ztunnel.lint
+  max_history                = local.effective_release_defaults.ztunnel.max_history
   name                       = var.ztunnel.name
   namespace                  = coalesce(var.ztunnel.namespace, var.istio.namespace)
   pass_credentials           = var.ztunnel.pass_credentials
@@ -506,14 +542,18 @@ module "ztunnel" {
   set_wo_revision            = var.ztunnel.set_wo_revision
   skip_crds                  = var.ztunnel.skip_crds
   take_ownership             = var.ztunnel.take_ownership
-  timeout                    = var.ztunnel.timeout
+  timeout                    = local.effective_release_defaults.ztunnel.timeout
   timeouts                   = var.ztunnel.timeouts
   upgrade_install            = var.ztunnel.upgrade_install
-  values                     = concat(local.integration_values.ztunnel, var.ztunnel.values)
+  default_values             = local.integration_values.ztunnel
+  values_object              = var.ztunnel.values_object
+  values                     = var.ztunnel.values
+  service_accounts           = var.ztunnel.service_accounts
+  service_account_paths      = local.service_account_paths.ztunnel
   verify                     = var.ztunnel.verify
   chart_version              = coalesce(var.ztunnel.chart_version, var.istio.chart_version)
-  wait                       = var.ztunnel.wait
-  wait_for_jobs              = var.ztunnel.wait_for_jobs
+  wait                       = local.effective_release_defaults.ztunnel.wait
+  wait_for_jobs              = local.effective_release_defaults.ztunnel.wait_for_jobs
   depends_on                 = [module.istio_cni_ambient]
 }
 
@@ -522,10 +562,10 @@ module "argocd" {
   version = "2.0.0"
   count   = var.enable_argocd ? 1 : 0
 
-  atomic                     = var.argocd.atomic
+  atomic                     = local.effective_release_defaults.argocd.atomic
   chart                      = var.argocd.chart
-  cleanup_on_fail            = var.argocd.cleanup_on_fail
-  create_namespace           = var.argocd.create_namespace
+  cleanup_on_fail            = local.effective_release_defaults.argocd.cleanup_on_fail
+  create_namespace           = local.effective_release_defaults.argocd.create_namespace
   dependency_update          = var.argocd.dependency_update
   description                = var.argocd.description
   devel                      = var.argocd.devel
@@ -534,8 +574,8 @@ module "argocd" {
   disable_webhooks           = var.argocd.disable_webhooks
   force_update               = var.argocd.force_update
   keyring                    = var.argocd.keyring
-  lint                       = var.argocd.lint
-  max_history                = var.argocd.max_history
+  lint                       = local.effective_release_defaults.argocd.lint
+  max_history                = local.effective_release_defaults.argocd.max_history
   name                       = var.argocd.name
   namespace                  = var.argocd.namespace
   pass_credentials           = var.argocd.pass_credentials
@@ -558,13 +598,17 @@ module "argocd" {
   set_wo_revision            = var.argocd.set_wo_revision
   skip_crds                  = var.argocd.skip_crds
   take_ownership             = var.argocd.take_ownership
-  timeout                    = var.argocd.timeout
+  timeout                    = local.effective_release_defaults.argocd.timeout
   timeouts                   = var.argocd.timeouts
   upgrade_install            = var.argocd.upgrade_install
-  values                     = concat(local.integration_values.argocd, var.argocd.values)
+  default_values             = local.integration_values.argocd
+  values_object              = var.argocd.values_object
+  values                     = var.argocd.values
+  service_accounts           = var.argocd.service_accounts
+  service_account_paths      = local.service_account_paths.argocd
   verify                     = var.argocd.verify
   chart_version              = var.argocd.chart_version
-  wait                       = var.argocd.wait
-  wait_for_jobs              = var.argocd.wait_for_jobs
+  wait                       = local.effective_release_defaults.argocd.wait
+  wait_for_jobs              = local.effective_release_defaults.argocd.wait_for_jobs
   depends_on                 = [module.cilium]
 }
