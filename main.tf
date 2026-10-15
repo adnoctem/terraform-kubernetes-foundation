@@ -1,5 +1,5 @@
 module "cilium" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_cilium ? 1 : 0
 
@@ -54,7 +54,7 @@ module "cilium" {
 }
 
 module "cert_manager" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_cert_manager ? 1 : 0
 
@@ -110,7 +110,7 @@ module "cert_manager" {
 }
 
 module "step_certificates" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_step_certificates ? 1 : 0
 
@@ -166,7 +166,7 @@ module "step_certificates" {
 }
 
 module "step_issuer" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_step_issuer ? 1 : 0
 
@@ -222,7 +222,7 @@ module "step_issuer" {
 }
 
 module "istio_base" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = local.manage_istio_base ? 1 : 0
 
@@ -278,7 +278,7 @@ module "istio_base" {
 }
 
 module "istio_csr" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_istio_csr ? 1 : 0
 
@@ -334,7 +334,7 @@ module "istio_csr" {
 }
 
 module "istio_cni_sidecar" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_istio && var.istio.cni_enabled && var.istio.mode == "sidecar" ? 1 : 0
 
@@ -390,7 +390,7 @@ module "istio_cni_sidecar" {
 }
 
 module "istiod" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_istio ? 1 : 0
 
@@ -446,7 +446,7 @@ module "istiod" {
 }
 
 module "istio_cni_ambient" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_istio && var.istio.cni_enabled && var.istio.mode == "ambient" ? 1 : 0
 
@@ -502,7 +502,7 @@ module "istio_cni_ambient" {
 }
 
 module "ztunnel" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_istio && var.istio.mode == "ambient" ? 1 : 0
 
@@ -558,7 +558,7 @@ module "ztunnel" {
 }
 
 module "argocd" {
-  source  = "adnoctem/release/helm"
+  source  = "registry.terraform.io/adnoctem/release/helm"
   version = "2.0.0"
   count   = var.enable_argocd ? 1 : 0
 

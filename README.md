@@ -21,7 +21,7 @@ It works with caller-configured clusters and has no AWS, Azure, or Google provid
 
 ```hcl
 module "foundation" {
-  source  = "adnoctem/foundation/kubernetes"
+  source  = "registry.terraform.io/adnoctem/foundation/kubernetes"
   version = "~> 1.0"
 
   enable_cert_manager = true
@@ -32,8 +32,9 @@ module "foundation" {
 }
 ```
 
-This source targets the upcoming first Registry release. Publish `adnoctem/release/helm` v2.0.0
-first: foundation consumes that exact version. Local foundation examples also need that dependency.
+Foundation pins `registry.terraform.io/adnoctem/release/helm` to v2.0.0. The explicit hostname
+ensures Terraform and OpenTofu install the same dependency from the Terraform Registry. Local
+foundation examples also download that dependency.
 
 ## Components and configuration
 
@@ -164,17 +165,17 @@ No providers.
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
-| <a name="module_argocd"></a> [argocd](#module\_argocd) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_cilium"></a> [cilium](#module\_cilium) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_istio_base"></a> [istio\_base](#module\_istio\_base) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_istio_cni_ambient"></a> [istio\_cni\_ambient](#module\_istio\_cni\_ambient) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_istio_cni_sidecar"></a> [istio\_cni\_sidecar](#module\_istio\_cni\_sidecar) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_istio_csr"></a> [istio\_csr](#module\_istio\_csr) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_istiod"></a> [istiod](#module\_istiod) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_step_certificates"></a> [step\_certificates](#module\_step\_certificates) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_step_issuer"></a> [step\_issuer](#module\_step\_issuer) | adnoctem/release/helm | 2.0.0 |
-| <a name="module_ztunnel"></a> [ztunnel](#module\_ztunnel) | adnoctem/release/helm | 2.0.0 |
+| <a name="module_argocd"></a> [argocd](#module\_argocd) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_cilium"></a> [cilium](#module\_cilium) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_istio_base"></a> [istio\_base](#module\_istio\_base) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_istio_cni_ambient"></a> [istio\_cni\_ambient](#module\_istio\_cni\_ambient) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_istio_cni_sidecar"></a> [istio\_cni\_sidecar](#module\_istio\_cni\_sidecar) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_istio_csr"></a> [istio\_csr](#module\_istio\_csr) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_istiod"></a> [istiod](#module\_istiod) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_step_certificates"></a> [step\_certificates](#module\_step\_certificates) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_step_issuer"></a> [step\_issuer](#module\_step\_issuer) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
+| <a name="module_ztunnel"></a> [ztunnel](#module\_ztunnel) | registry.terraform.io/adnoctem/release/helm | 2.0.0 |
 
 ## Inputs
 

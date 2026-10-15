@@ -25,17 +25,17 @@ Report format 1. Every field of every provider configuration, resource and data 
 
 ## Diagnostics
 
-- **error** (`.`): module "argocd": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "cert\_manager": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "cilium": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "istio\_base": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "istio\_cni\_ambient": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "istio\_cni\_sidecar": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "istio\_csr": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "istiod": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "step\_certificates": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "step\_issuer": source "adnoctem/release/helm" is not a local path and is not analysed
-- **error** (`.`): module "ztunnel": source "adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "argocd": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "cert\_manager": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "cilium": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "istio\_base": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "istio\_cni\_ambient": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "istio\_cni\_sidecar": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "istio\_csr": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "istiod": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "step\_certificates": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "step\_issuer": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
+- **error** (`.`): module "ztunnel": source "registry.terraform.io/adnoctem/release/helm" is not a local path and is not analysed
 
 ## Provider configuration
 
