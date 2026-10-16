@@ -1,6 +1,3 @@
-provider "helm" {
-  kubernetes = { config_path = pathexpand(var.kubeconfig), config_context = var.kube_context }
-}
 module "foundation" {
   source           = "../../.."
   enable_istio     = true

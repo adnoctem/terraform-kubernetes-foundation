@@ -1,7 +1,3 @@
-provider "kubernetes" {
-  config_path    = pathexpand(var.kubeconfig)
-  config_context = var.kube_context
-}
 module "configuration" {
   source = "../../../modules/configuration"
 

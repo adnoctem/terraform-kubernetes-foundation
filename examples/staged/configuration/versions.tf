@@ -4,3 +4,8 @@ terraform {
     kubernetes = { source = "hashicorp/kubernetes", version = "~> 3.3" }
   }
 }
+
+provider "kubernetes" {
+  config_path    = pathexpand(var.kubeconfig)
+  config_context = var.kube_context
+}
